@@ -3,10 +3,22 @@ const router = express.Router();
 const members = require('../../Members');
 const uuid = require('uuid');
 const pool = require('../../db');
+const Post = require('../../models/Post');
+const mongoose = require('mongoose');
 
+const uri = "mongodb+srv://milk:c4kaeS1xWjCkeQet@cluster0.wteq6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+
+mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('connected to DB!'));
 
 //get all members
-router.get('/', (req, res) => { res.json(members); });
+router.get('/', async (req, res) => { 
+    try{
+        const posts = await Post.find();
+        res.json(posts);
+    } catch (err){
+        res.json({ message : err });
+    }
+     });
 
 //get a member
 router.get('/:id', (req, res) => {
@@ -39,21 +51,22 @@ router.put('/:id', (req, res) => {
     });
 
 //upload member
-router.post('/', (req, res) => {
-    const newMember = {
+router.post('/', async (req, res) => {
+    const newMember = new Post ({
         id: uuid.v4(),
         name: req.body.name,
         email: req.body.email,
-        status: 'active'
-    }
-
+    });
     if(!newMember.name || !newMember.email){
         return res.status(400).json({ msg: 'Please include a name and email'});
     }
-    members.push(newMember);
-    const {name} = req.body;
-    const newMem = pool.query("INSERT INTO todo (description) VALUES($1)",[name])
-    .then(res.json(newMem));
+    console.log("RECIEVED: ", newMember);
+    try {
+        const savedPost = await newMember.save();
+        res.json(savedPost);
+    } catch (err) {
+        res.json({ message: err })
+    }
 });
 //upload todos
 router.post('/todos', async (req, res) => {
