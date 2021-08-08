@@ -25,6 +25,8 @@ app.use(express.urlencoded({extended: false}));
 
 
 app.use('/api/members', require('./routes/api/members'));
+app.use('/api/login', require('./routes/api/login'));
+
 
 const PORT = 5001;
 
