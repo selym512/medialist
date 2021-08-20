@@ -2,18 +2,31 @@ const express = require(`express`);
 const router = express.Router();
 const members = require('../../Members');
 const uuid = require('uuid');
-const pool = require('../../db');
-const Post = require('../../models/Post');
+const Users = require('../../models/Users');
+const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-const uri = "mongodb+srv://milk:c4kaeS1xWjCkeQet@cluster0.wteq6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const uri = "mongodb+srv://milk:c4kaeS1xWjCkeQet@cluster0.wteq6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('connected to DB!'));
+
+//3 days
+const maxAge = 3* 24 * 60 * 60;
+
+//jwt create token
+const createToken = (id) => {
+    return jwt.sign({id}, 'its a secret to everyone', {
+        expiresIn: maxAge
+    });
+}
+
+
+
 
 //get all members
 router.get('/', async (req, res) => { 
     try{
-        const posts = await Post.find();
+        const posts = await Users.find();
         res.json(posts);
     } catch (err){
         res.json({ message : err });
@@ -52,17 +65,19 @@ router.put('/:id', (req, res) => {
 
 //upload member
 router.post('/', async (req, res) => {
-    const newMember = new Post ({
+    const newMember = new Users ({
         id: uuid.v4(),
-        name: req.body.name,
+        password: req.body.password,
         email: req.body.email,
-    });
-    if(!newMember.name || !newMember.email){
-        return res.status(400).json({ msg: 'Please include a name and email'});
+    })
+    if(!newMember.password || !newMember.email){
+        return res.status(400).json({ msg: 'Please include a password and email', password: req.body.password, email: req.body.email});
     }
     console.log("RECIEVED: ", newMember);
     try {
         const savedPost = await newMember.save();
+        const token = createToken(newMember.id);
+        res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 3000, sameSite:'none'});
         res.json(savedPost);
     } catch (err) {
         res.json({ message: err })
