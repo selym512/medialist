@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const logger = require('./middleware/logger');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 // const mongoose = require('mongoose');
 // const pool = require('./db');
 // const {MongoClient} = require("mongodb");
@@ -17,7 +18,17 @@ const cors = require('cors');
 const app = express();
 
 app.use(logger);
-app.use(cors());
+
+let allowCrossDomain = function(req, res, next) {
+    // res.header('Access-Control-Allow-Origin', "http://localhost:3000");
+    // res.header('Access-Control-Allow-Credentials', "true");
+    next();
+};
+
+app.use(allowCrossDomain);
+
+app.use(cors({credentials: true, origin: "http://localhost:3000"}));
+app.use(cookieParser());
 
 
 app.use(express.json());
@@ -26,6 +37,7 @@ app.use(express.urlencoded({extended: false}));
 
 app.use('/api/members', require('./routes/api/members'));
 app.use('/api/login', require('./routes/api/login'));
+app.use('/api/movies', require('./routes/api/movies'));
 
 
 const PORT = 5001;

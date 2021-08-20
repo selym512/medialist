@@ -1,47 +1,42 @@
 import './App.css';
 import About from './components/about';
 import Login from './components/login';
+import Register from './components/register';
 import Dashboard from './components/dashboard';
+import Header from './components/navbars/header';
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useRouteMatch,
-  useParams
+  // Link,
+  // useRouteMatch,
+  // useParams
 } from "react-router-dom";
 
 function App() {
   return (
 
+    
     <Router>
-    <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/topics">Topics</Link>
-        </li>
-      </ul>
-
+    <Header/>
       <Switch>
         <Route path="/about">
           <About />
         </Route>
-        <Route path="/topics">
+        <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/register">
+          <Register />
         </Route>
         <Route path="/">
          <Dashboard/>
         </Route>
       </Switch>
-    </div>
   </Router>
+
+
 
 
     // <div className="container">

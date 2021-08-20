@@ -1,23 +1,51 @@
-const express = require(`express`);
+const express = require('express');
 const router = express.Router();
-const members = require('../../Members');
-const uuid = require('uuid');
-const pool = require('../../db');
-const Post = require('../../models/Post');
-const mongoose = require('mongoose');
+const Users = require('../../models/Users');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
-const uri = "mongodb+srv://milk:c4kaeS1xWjCkeQet@cluster0.wteq6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+//3 days
+const maxAge = 3* 24 * 60 * 60;
 
+//jwt create token
+const createToken = (id) => {
+    return jwt.sign({id}, 'its a secret to everyone', {
+        expiresIn: maxAge
+    });
+}
 
-//get all members
-router.get('/', async (req, res) => { 
-    try{
-        const posts = await Post.find();
-        res.json(posts);
-    } catch (err){
-        res.json({ message : err + "idk whats goin on" });
+//log in- confirm user and password match
+router.post('/', async (req, res) => {
+    const user = new Users ({
+        email: req.body.email,
+        password: req.body.password
+    })
+    if(!req.body.email || !req.body.password){
+        console.log('Please include a password and email');
+        return res.status(400).json({ msg: 'Please include a password and email'});
     }
-     });
+    console.log("email received: " + req.body.email);
+    const query = await Users.findOne({email : user.email});
+    console.log("queried!" + JSON.stringify(query));
+    if(query){
+        const match = await bcrypt.compare(req.body.password, query.password);
+        console.log("DO THEY MATCH?: " + match);
+        if(match){
+            const token = createToken(query.id);
+            res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 3000, sameSite:'none'});
+            res.json({msg: "logged in"});
+        }
+        else{
+            console.log("the passwords don't match");
+            res.json({
+                msg: "incorrect password"
+            });
+        }
+    }
+    else{
+        console.log("account not found");
+    }
+});
 
 
 
