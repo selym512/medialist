@@ -78,6 +78,7 @@ router.post('/', async (req, res) => {
         const savedPost = await newMember.save();
         const token = createToken(newMember.id);
         res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 3000, sameSite:'none'});
+        res.cookie('id', newMember.id, {httpOnly: true, maxAge: maxAge * 3000, sameSite:'none'});
         res.json(savedPost);
     } catch (err) {
         res.json({ message: err })

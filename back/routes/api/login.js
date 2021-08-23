@@ -33,6 +33,7 @@ router.post('/', async (req, res) => {
         if(match){
             const token = createToken(query.id);
             res.cookie('jwt', token, {httpOnly: false, maxAge: maxAge * 3000, sameSite:'none'});
+            res.cookie('id', query.id, {httpOnly: true, maxAge: maxAge * 3000, sameSite:'none'});
             res.json({msg: "logged in"});
         }
         else{

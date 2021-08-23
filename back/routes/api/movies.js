@@ -2,7 +2,16 @@ const express = require(`express`);
 const router = express.Router();
 var axios = require("axios").default;
 const v = require('voca');
+const Users = require('../../models/Users');
 
+router.put('/', async (req, res) => {
+    const found = WatchList.findById()
+});
+router.post('/', async (req, res) => {
+    const newList = new WatchList({
+
+    })
+});
 
 router.get('/', async (req, res) => { 
 
@@ -46,6 +55,12 @@ router.get('/', async (req, res) => {
             console.error(error);
         });
    
+});
+
+router.get('/watchlist', async(req, res) =>{
+    userdata = await Users.find({"id" : req.cookies['id']});
+    console.log(userdata);
+    res.json(userdata.watchList);
 });
 
 module.exports = router;

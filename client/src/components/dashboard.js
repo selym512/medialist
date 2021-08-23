@@ -3,6 +3,7 @@ import Button from "react-bootstrap/esm/Button";
 import React from "react";
 import axios from "axios";
 import MediaCard from "./card";
+import Cookies from 'js-cookie';
 
 
 
@@ -15,12 +16,24 @@ class Dashboard extends React.Component{
            value: '',
            rando: true,
            results: '',
+           error: null
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.openRando = this.openRando.bind(this);
+        this.addToList = this.addToList.bind(this);
+
     }
     handleChange(event) {    
         this.setState({value: event.target.value}); 
+    }
+    openRando = () => {
+        this.setState((state) => {
+            return{rando: !state.rando}
+        });
+    }
+    addToList = () => {
+        
     }
     handleSubmit(event) {
 
@@ -39,6 +52,7 @@ class Dashboard extends React.Component{
                 this.setState({rando: false});
                
             }).catch(function (error) {
+                this.setState({error});
                 console.error(error);
             });
             
@@ -46,11 +60,17 @@ class Dashboard extends React.Component{
 
 
     render(){
-        if (this.state.rando === false && this.state.results !== ''){
-            var leftpanel = <MediaCard result={this.state.results}></MediaCard>
+        const { error, rando, results } = this.state;
+        var leftpanel;
+        if(error){
+            <p>{error.message}</p>
+        }
+        else if (rando === false && results !== ''){
+            leftpanel = <MediaCard close={this.openRando} result={results}></MediaCard>
+            // leftpanel = <p>{results.resp1.results[0].image.url}</p>
         }
         else{
-            var leftpanel = <Button  style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit">RANDOMIZER</Button>
+            leftpanel = <Button  style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit">RANDOMIZER</Button>
         }
 
 

@@ -47,25 +47,28 @@ export default function MediaCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={props.result.resp1.results.image.url}
-          title={props.result.resp1.results.title}
+          image={props.result.resp1.results[0].image.url ?? ''}
+          title={props.result.resp1.results[0].title ?? ''}
           height="1500"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-          {props.result.resp1.results.title}
+          {props.result.resp1.results[0].title ?? ''}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.result.resp2.plotSummary.text}
+            <b>Rating: {props.result.resp2.ratings.rating ?? ''}</b>
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.result.resp2.plotSummary.text ?? ''}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          Add to list
         </Button>
-        <Button size="small" color="primary">
-          Learn More
+        <Button onClick={props.close} size="small" color="secondary">
+          close
         </Button>
       </CardActions>
     </Card>

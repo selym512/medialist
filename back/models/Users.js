@@ -5,7 +5,15 @@ const UsersSchema = mongoose.Schema({
 
     password: String,
     email: String,
-    id: String
+    id: String,
+    watchList: [{
+        Title: String,
+        Summary: String,
+        Rating: String,
+        Watch: Boolean,
+        Image: String
+
+    }]
 
 });
 

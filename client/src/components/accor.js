@@ -7,12 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from 'react-bootstrap/esm/Button';
 import ToggleButton from 'react-bootstrap/esm/ToggleButton';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 
 
-// const randomize = () => {
-
-// }
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleAccordion() {
+
+  
+
 
   // const {list, setList} = useState([{
   //   "title": "Ingloriious Bastards",
@@ -84,7 +86,15 @@ export default function SimpleAccordion() {
     )
   });
 
+  useEffect(() => {
+    axios.get('http://localhost:5001/api/movies/watchlist', {mode: 'cors','withCredentials':true}).then(response => {
+      console.log(response.data);
+    });
+  },[]);
+
   return (
+
+    
 
     arrayStuff
 
