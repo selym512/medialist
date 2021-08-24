@@ -64,7 +64,7 @@ export default function MediaCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button onClick={props.addToList} size="small" color="primary">
           Add to list
         </Button>
         <Button onClick={props.close} size="small" color="secondary">
