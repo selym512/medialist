@@ -7,11 +7,11 @@ const UsersSchema = mongoose.Schema({
     email: String,
     id: String,
     watchList: [{
-        Title: String,
-        Summary: String,
-        Rating: String,
-        Watch: Boolean,
-        Image: String
+        title: String,
+        description: String,
+        rating: Number,
+        watched: Boolean,
+        image: String
 
     }]
 

@@ -39,7 +39,18 @@ class Dashboard extends React.Component{
         this.openRando = this.openRando.bind(this);
         this.addToList = this.addToList.bind(this);
     }
-    
+    componentDidMount(){
+            axios.get('http://localhost:5001/api/movies/watchlist',{ mode: 'cors', 'withCredentials':true })
+            .then(response => {
+              this.setState(state => ({
+                ...state,
+                list:[...state.list, response.data[0].watchList[1]]
+              })
+            )
+            console.log(response.data[0].watchList[1]);
+          }
+          )
+    }
     handleChange(event) {    
         this.setState({value: event.target.value}); 
     }

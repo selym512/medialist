@@ -60,11 +60,17 @@ router.get('/', async (req, res) => {
 router.get('/watchlist', async(req, res) =>{
     userdata = await Users.find({"id" : req.cookies['id']});
     console.log(userdata);
-    res.json(userdata.watchList);
+    res.json(userdata);
 });
 router.put('/watchlist', async(req, res) =>{
     //pulls up ID and receives movie data for insertion
     userdata = await Users.find({"id" : req.cookies['id']});
+    Users.findOneAndUpdate({"id" : req.cookies['id']}, {$push: {watchList: req.body}}, (err, doc) => {
+        if(err){
+            console.log(err);
+        }
+        console.log("doc updated = " + doc);
+    });
     console.log(req.body);
     console.log(userdata);
     res.json(req.body);
