@@ -58,8 +58,8 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/watchlist', async(req, res) =>{
-    userdata = await Users.find({"id" : req.cookies['id']});
-    console.log(userdata);
+    userdata = await Users.findOne({"id" : req.cookies['id']});
+    console.log(userdata.watchList);
     res.json(userdata);
 });
 router.put('/watchlist', async(req, res) =>{

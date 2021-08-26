@@ -16,38 +16,24 @@ class Dashboard extends React.Component{
            rando: true,
            results: '',
            error: null,
-           list: [{
-            "title": "Ingloriious Bastards",
-            "watched": true,
-            "picker" : false,
-            "description": "A movie summary will go in here. Once I get that figured out. Also you can 'check' whether a movie is watched and delete from list."
-          },
-          {
-            "title": "Avenger",
-            "watched": true,
-            "picker": true,
-            "description": "Ya this movie is pretty bad but it's whatever"
-          },{
-            "title": "Kobo the movie",
-            "watched": true,
-            "picker" : false,
-            "description": "Kobo does stuff and then the movie ends 10 outta 10"
-          }]
+           list: [],
+           randomize: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.openRando = this.openRando.bind(this);
         this.addToList = this.addToList.bind(this);
+        this.randomizer = this.randomizer.bind(this);
     }
     componentDidMount(){
             axios.get('http://localhost:5001/api/movies/watchlist',{ mode: 'cors', 'withCredentials':true })
             .then(response => {
               this.setState(state => ({
                 ...state,
-                list:[...state.list, response.data[0].watchList[1]]
+                list: [...state.list, ...response.data.watchList]
               })
             )
-            console.log(response.data[0].watchList[1]);
+            console.log(response.data.watchList);
           }
           )
     }
@@ -58,6 +44,19 @@ class Dashboard extends React.Component{
         this.setState((state) => {
             return{...state, rando: !state.rando}
         });
+    }
+    randomizer = () => {
+        var listLength = this.state.list.length;
+        for(var i =0; i<6; i++){
+            var rand =  0 + (Math.random() * (listLength-1));
+            this.setState((state) => ({
+                ...state
+                //need to randomize 
+            }));
+            setTimeout(() => {  console.log("World!"); }, 1000);
+        }
+        
+
     }
     addToList = () => {
         this.setState(state => ({
@@ -125,7 +124,7 @@ class Dashboard extends React.Component{
             // leftpanel = <p>{results.resp1.results[0].image.url}</p>
         }
         else{
-            leftpanel = <Button  style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit">RANDOMIZER</Button>
+            leftpanel = <Button onClick={this.randomizer} style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit">RANDOMIZER</Button>
         }
 
 
