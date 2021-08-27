@@ -10,8 +10,9 @@ const UsersSchema = mongoose.Schema({
         title: String,
         description: String,
         rating: Number,
-        watched: Boolean,
-        image: String
+        watched: {type : Boolean, default: false},
+        image: String,
+        picker: {type : Boolean, default: false}
 
     }]
 

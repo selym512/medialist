@@ -12,9 +12,9 @@ router.post('/', async (req, res) => {
 
     })
 });
-
+//retrieves most relevant movie ID based off users search
+//retrieves movie overview from IMDB
 router.get('/', async (req, res) => { 
-
     var resp1 = {};
     var resp2;
     var options = {
@@ -26,9 +26,7 @@ router.get('/', async (req, res) => {
             'x-rapidapi-key': 'e189eada59msh18cccafd3836b61p105e92jsn88a874a790a5'
         }
         };
-        
         axios.request(options).then(function (response) {
-
             console.log(response.data);
             resp1 = response.data;
             var id = response.data.results[0].id;
@@ -41,9 +39,7 @@ router.get('/', async (req, res) => {
             headers: {
                 'x-rapidapi-host': 'imdb8.p.rapidapi.com',
                 'x-rapidapi-key': 'e189eada59msh18cccafd3836b61p105e92jsn88a874a790a5'
-            }
-            };
-
+            }};
             axios.request(options2).then(function (response2) {
                 console.log(response2.data);
                 resp2 = response2.data;
@@ -54,14 +50,14 @@ router.get('/', async (req, res) => {
         }).catch(function (error) {
             console.error(error);
         });
-   
 });
-
+//retreives one user and their watchlist
 router.get('/watchlist', async(req, res) =>{
     userdata = await Users.findOne({"id" : req.cookies['id']});
     console.log(userdata.watchList);
     res.json(userdata);
 });
+//inserts a movie into user's watchlist
 router.put('/watchlist', async(req, res) =>{
     //pulls up ID and receives movie data for insertion
     userdata = await Users.find({"id" : req.cookies['id']});

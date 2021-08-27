@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+//styling
 const useStyles = makeStyles({
   root: {
     // width: 800,
@@ -20,28 +21,13 @@ const useStyles = makeStyles({
     height: 0,
     // width:'100%',
     paddingTop: '100%'
-    
-    
   },
 });
-// const styles = theme => ({
-//     root: {
-//         width: "300",
-//         margin: 'auto'
-//     },
-//     media: {
-//         height: "100%",
-//         width: '100%',
-//     }
-//   });
   
-
 export default function MediaCard(props) {
 
   const classes = useStyles();
-//   const imgs = styles();
-
-
+  //displays imdb data for the left panel when searched
   return (
     <Card className={classes.root}>
       <CardActionArea>

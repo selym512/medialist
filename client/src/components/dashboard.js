@@ -4,11 +4,7 @@ import React from "react";
 import axios from "axios";
 import MediaCard from "./card";
 
-
-
-
 class Dashboard extends React.Component{
-
     constructor(){
         super()
         this.state = {
@@ -17,14 +13,14 @@ class Dashboard extends React.Component{
            results: '',
            error: null,
            list: [],
-           randomize: false
+           randomNum: null
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.openRando = this.openRando.bind(this);
         this.addToList = this.addToList.bind(this);
-        this.randomizer = this.randomizer.bind(this);
     }
+    //on opening dashboard this retrieves users watchlist from back-end
     componentDidMount(){
             axios.get('http://localhost:5001/api/movies/watchlist',{ mode: 'cors', 'withCredentials':true })
             .then(response => {
@@ -34,30 +30,22 @@ class Dashboard extends React.Component{
               })
             )
             console.log(response.data.watchList);
-          }
-          )
+          })
     }
+    //handles search input text field
     handleChange(event) {    
         this.setState({value: event.target.value}); 
     }
+    //switches the left panel open and closed, revealing randomizer button
     openRando = () => {
         this.setState((state) => {
             return{...state, rando: !state.rando}
         });
     }
-    randomizer = () => {
-        var listLength = this.state.list.length;
-        for(var i =0; i<6; i++){
-            var rand =  0 + (Math.random() * (listLength-1));
-            this.setState((state) => ({
-                ...state
-                //need to randomize 
-            }));
-            setTimeout(() => {  console.log("World!"); }, 1000);
-        }
-        
-
-    }
+    randomizeOn = () => {
+      
+          }
+    //user adds searched movie to watchlist within the UI and database
     addToList = () => {
         this.setState(state => ({
             ...state,
@@ -68,10 +56,8 @@ class Dashboard extends React.Component{
                 "description": state.results.resp2.plotSummary.text,
                 "rating": state.results.resp2.ratings.rating,
                 "image": state.results.resp1.results[0].image.url
-
                 }]
-        })
-        );
+        }));
         this.openRando();
         axios.put('http://localhost:5001/api/movies/watchlist', 
         {
@@ -89,69 +75,60 @@ class Dashboard extends React.Component{
         .then(response => {console.log(response.data);})
           .catch(error => {console.log(error)});
     }
+    //sends search query to back-end in order to retrieve movie data from imdb API
     handleSubmit(event) {
-
         event.preventDefault();
-        var options = {
-            method: 'GET',
-            url: 'http://localhost:5001/api/movies',
-            params: {q: this.state.value},
-            }
+        var options = { method: 'GET', url: 'http://localhost:5001/api/movies', params: {q: this.state.value},}
             // method: 'GET',
             // url: 'https://random-data-api.com/api/hipster/random_hipster_stuff'}
-            
             axios.request(options).then((response) => {
                 console.log(response.data);
                 this.setState({results: response.data});
                 this.setState({rando: false});
-               
             }).catch(function (error) {
                 this.setState({error});
                 console.error(error);
             });
-            
     }
-
-
+    
     render(){
-        const { error, rando, results, list } = this.state;
+        //deconstructing object
+        const { error, rando, results, list, randomize } = this.state;
+        //logic for keeping the left panel as randomizer button or search results
         var leftpanel;
         if(error){
             <p>{error.message}</p>
         }
         else if (rando === false && results !== ''){
             leftpanel = <MediaCard addToList={this.addToList} close={this.openRando} result={results}></MediaCard>
-            // leftpanel = <p>{results.resp1.results[0].image.url}</p>
         }
         else{
-            leftpanel = <Button onClick={this.randomizer} style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit">RANDOMIZER</Button>
+            leftpanel = <Button onClick={this.randomizeOn} style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit"
+                > RANDOMIZER </Button>
         }
 
-
         return(
-        <>
-        <table height="100%">
-        <tbody height="100%">
-            <tr height="100%">
-                <td valign="bottom" align="center" height="500"  rowSpan="20" width="40%">
-                {leftpanel}
-                </td>
-                <td valign="top" height="100%" width="60%">
-                    <div className = "top">
-                        <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit">
-                            Search
-                        </Button>
-                        
-                        <input style={{"width":"100%"}} type="text" onChange={this.handleChange} id="exampleFormControlInput1" placeholder="Search a movie title" />
-                    </div>
-                        <MediaList list={list}></MediaList>
+            <>
+            <table height="100%">
+            <tbody height="100%">
+                <tr height="100%">
+                    <td valign="bottom" align="center" height="500"  rowSpan="20" width="40%">
+                    {leftpanel}
                     </td>
-            </tr>
-        </tbody>
-        </table>
-        </>
+                    <td valign="top" height="100%" width="60%">
+                        <div className = "top">
+                            <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit">
+                                Search
+                            </Button>
+                            <input style={{"width":"100%"}} type="text" onChange={this.handleChange} id="exampleFormControlInput1" placeholder="Search a movie title" />
+                        </div>
+                            <MediaList onRef={(ref) => {this.child = ref}} randomOn={randomize} list={list}></MediaList>
+                        </td>
+                </tr>
+            </tbody>
+            </table>
+            </>
         )
     }
 };
-
 export default Dashboard;
