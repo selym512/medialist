@@ -3,6 +3,7 @@ import Button from "react-bootstrap/esm/Button";
 import React from "react";
 import axios from "axios";
 import MediaCard from "./card";
+import { Fade } from "react-awesome-reveal";
 
 class Dashboard extends React.Component{
     constructor(){
@@ -13,12 +14,15 @@ class Dashboard extends React.Component{
            results: '',
            error: null,
            list: [],
-           randomNum: null
+           randomNum: null,
+           show: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.openRando = this.openRando.bind(this);
         this.addToList = this.addToList.bind(this);
+        this.randomizeOn = this.randomizeOn.bind(this);
+
     }
     //on opening dashboard this retrieves users watchlist from back-end
     componentDidMount(){
@@ -42,8 +46,8 @@ class Dashboard extends React.Component{
             return{...state, rando: !state.rando}
         });
     }
-    randomizeOn = () => {
-      
+    randomizeOn(){
+        this.setState({ show: !this.state.show });
           }
     //user adds searched movie to watchlist within the UI and database
     addToList = () => {
@@ -103,8 +107,18 @@ class Dashboard extends React.Component{
             leftpanel = <MediaCard addToList={this.addToList} close={this.openRando} result={results}></MediaCard>
         }
         else{
-            leftpanel = <Button onClick={this.randomizeOn} style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit"
-                > RANDOMIZER </Button>
+            leftpanel = <>
+             
+                <div>
+                { this.state.show ? "" :
+                    <Fade direction="down" opposite when={this.state.show}>
+                    <h1 >yoyoyo</h1>
+                    </Fade>
+                }
+                    <Button onClick={this.randomizeOn} style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit">
+                         RANDOMIZER </Button>
+                </div>
+            </>
         }
 
         return(
