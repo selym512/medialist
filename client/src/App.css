@@ -40,4 +40,37 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 2mm;
+  margin-bottom: 2mm;
+
 }
+.leftpanel{
+  float:left;
+  width:40%;
+  margin-left: 2mm;
+  margin-right: 2mm;
+  margin-top: 2mm;
+
+}
+.Rresults{
+  text-align: center;
+}
+.randomizer{
+  height: auto;
+}
+.rightpanel{
+  float:right;
+  width:60%;
+  margin-left: auto;
+  margin-right: 2mm;
+
+}
+.main{
+  display: flex;
+}
+.watchlistButtons{
+  float: right;
+  padding-bottom: 1mm;
+  padding-right: 1mm;
+}
+
