@@ -22,6 +22,7 @@ class Dashboard extends React.Component{
         this.openRando = this.openRando.bind(this);
         this.addToList = this.addToList.bind(this);
         this.randomizeOn = this.randomizeOn.bind(this);
+        this.watched = this.watched.bind(this);
 
     }
     //on opening dashboard this retrieves users watchlist from back-end
@@ -46,9 +47,16 @@ class Dashboard extends React.Component{
             return{...state, rando: !state.rando}
         });
     }
+    //grabs a random movie from watchlist
     randomizeOn(){
         this.setState({ show: !this.state.show });
-          }
+    }
+    watched(y){
+        console.log( this.state.list[y]);
+        let replacedListValue = this.state;
+        replacedListValue.list[y].watched = !replacedListValue.list[y].watched;
+        this.setState(replacedListValue);
+    }
     //user adds searched movie to watchlist within the UI and database
     addToList = () => {
         this.setState(state => ({
@@ -108,40 +116,35 @@ class Dashboard extends React.Component{
         }
         else{
             leftpanel = <>
-             
-                <div>
-                { this.state.show ? "" :
-                    <Fade direction="down" opposite when={this.state.show}>
-                    <h1 >yoyoyo</h1>
-                    </Fade>
-                }
-                    <Button onClick={this.randomizeOn} style={{"width":"90%", "height":"40%"}} size="lg" variant="dark" type="submit">
+                <div className="randomizer">
+                    <Button onClick={this.randomizeOn} style={{"width":"100%", "height":"40%"}} size="lg" variant="dark" type="submit">
                          RANDOMIZER </Button>
                 </div>
+                { this.state.show ? "" :
+                    <div className="Rresults">
+                        <Fade direction="down" opposite when={this.state.show}>
+                        <h1>yoyoyo</h1>
+                        </Fade>
+                    </div>
+                }
             </>
         }
 
         return(
-            <>
-            <table height="100%">
-            <tbody height="100%">
-                <tr height="100%">
-                    <td valign="bottom" align="center" height="500"  rowSpan="20" width="40%">
+            <div className="main">
+                <div className="leftpanel">
                     {leftpanel}
-                    </td>
-                    <td valign="top" height="100%" width="60%">
+                </div>
+                <div className="rightpanel">
                         <div className = "top">
                             <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit">
                                 Search
                             </Button>
                             <input style={{"width":"100%"}} type="text" onChange={this.handleChange} id="exampleFormControlInput1" placeholder="Search a movie title" />
                         </div>
-                            <MediaList onRef={(ref) => {this.child = ref}} randomOn={randomize} list={list}></MediaList>
-                        </td>
-                </tr>
-            </tbody>
-            </table>
-            </>
+                            <MediaList watched={this.watched} randomOn={randomize} list={list}></MediaList>
+                </div>
+            </div>
         )
     }
 };

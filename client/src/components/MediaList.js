@@ -8,7 +8,6 @@ import ToggleButton from 'react-bootstrap/esm/ToggleButton';
 import React from 'react';
 
 
-
 export default class MediaList extends React.Component {
     constructor(props) {
       super(props);
@@ -16,13 +15,8 @@ export default class MediaList extends React.Component {
         randomNum : null
        }
     }
-    componentDidMount() {
-      this.props.onRef(this);
-    }
-    componentWillUnmount() {
-      this.props.onRef(undefined);
-    }
-    childFunction() {
+    watched(y) {
+     this.props.watched(y);
      
     }
 
@@ -42,7 +36,7 @@ export default class MediaList extends React.Component {
       var picked = []
       var increment = 0;
       //populates list of accordians consisting of watchlist
-      this.props.list.forEach((x) => {
+      this.props.list.forEach((x,y) => {
         picked.push(false);
         array.push(
           <Accordion key={increment} style={this.state.randomNum === increment ? {"backgroundColor":"red"} : {"backgroundColor":"default"}} >
@@ -53,13 +47,18 @@ export default class MediaList extends React.Component {
             >
               <Typography className={classes.heading}>{x.title}</Typography>
             </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                {x.description}
-              </Typography>
-              <ToggleButton type="checkbox">Watched</ToggleButton>
-              <Button variant="danger">X</Button>
-            </AccordionDetails>
+            <div className="listDetails">
+              <AccordionDetails>
+                  <Typography> 
+                    {x.description}
+                  </Typography>
+                </AccordionDetails>
+                <div className="watchlistButtons">
+                <Button onClick={() =>{this.watched(y)}}>Watched</Button>
+                <Button variant="danger">X</Button>
+                  
+                </div>
+              </div>
           </Accordion>
         )
         increment++;
