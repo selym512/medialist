@@ -15,7 +15,8 @@ class Dashboard extends React.Component{
            error: null,
            list: [],
            randomNum: null,
-           show: false
+           show: false,
+           randomMovie: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -49,7 +50,8 @@ class Dashboard extends React.Component{
     }
     //grabs a random movie from watchlist
     randomizeOn(){
-        this.setState({ show: !this.state.show });
+        console.log(this.state.list[Math.floor(Math.random() * this.state.list.length)].title)
+        this.setState({ show: true, randomMovie: this.state.list[Math.floor(Math.random() * this.state.list.length)].title});
     }
     watched(y){
         console.log( this.state.list[y]);
@@ -105,7 +107,7 @@ class Dashboard extends React.Component{
     
     render(){
         //deconstructing object
-        const { error, rando, results, list, randomize } = this.state;
+        const { error, rando, results, list, randomize , randomMovie} = this.state;
         //logic for keeping the left panel as randomizer button or search results
         var leftpanel;
         if(error){
@@ -116,14 +118,15 @@ class Dashboard extends React.Component{
         }
         else{
             leftpanel = <>
+                <h5>Click RANDOMIZER to get a random movie from your watchlist recommended</h5>
                 <div className="randomizer">
                     <Button onClick={this.randomizeOn} style={{"width":"100%", "height":"40%"}} size="lg" variant="dark" type="submit">
                          RANDOMIZER </Button>
                 </div>
-                { this.state.show ? "" :
+                { this.state.show === false ? "" :
                     <div className="Rresults">
                         <Fade direction="down" opposite when={this.state.show}>
-                        <h1>yoyoyo</h1>
+                        <h4>{randomMovie}</h4>
                         </Fade>
                     </div>
                 }

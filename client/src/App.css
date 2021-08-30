@@ -50,13 +50,23 @@
   margin-left: 2mm;
   margin-right: 2mm;
   margin-top: 2mm;
+  text-align: center;
 
 }
 .Rresults{
   text-align: center;
+  background-color: darksalmon;
+  margin-left: 30%;
+  margin-right: 30%;
+  padding-top: .5mm;
+  padding-bottom: .5mm;
 }
 .randomizer{
   height: auto;
+  padding-top: 14mm;
+  /* padding-bottom: 2mm; */
+  margin-left: 14%;
+  margin-right: 14%;
 }
 .rightpanel{
   float:right;
