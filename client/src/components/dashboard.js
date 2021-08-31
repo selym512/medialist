@@ -1,5 +1,6 @@
 import MediaList from "./MediaList";
 import Button from "react-bootstrap/esm/Button";
+import Spinner from "react-bootstrap/esm/Spinner";
 import React from "react";
 import axios from "axios";
 import MediaCard from "./card";
@@ -16,7 +17,9 @@ class Dashboard extends React.Component{
            list: [],
            randomNum: null,
            show: false,
-           randomMovie: ''
+           randomMovie: '',
+           listLoading: true,
+           searchLoading: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +35,8 @@ class Dashboard extends React.Component{
             .then(response => {
               this.setState(state => ({
                 ...state,
-                list: [...state.list, ...response.data.watchList]
+                list: [...state.list, ...response.data.watchList],
+                listLoading: false
               })
             )
             console.log(response.data.watchList);
@@ -51,7 +55,16 @@ class Dashboard extends React.Component{
     //grabs a random movie from watchlist
     randomizeOn(){
         console.log(this.state.list[Math.floor(Math.random() * this.state.list.length)].title)
-        this.setState({ show: true, randomMovie: this.state.list[Math.floor(Math.random() * this.state.list.length)].title});
+        var randomListOption = [];
+        this.state.list.forEach((element, x) => {
+            if (element.watched === false) randomListOption.push(x);
+        });
+        try{
+            this.setState({ show: true, randomMovie: this.state.list[randomListOption[Math.floor(Math.random() * randomListOption.length)]].title});
+        }
+        catch{
+            this.setState({ show: true, randomMovie: "Watchlist empty!"});
+        }
     }
     watched(y){
         console.log( this.state.list[y]);
@@ -91,23 +104,36 @@ class Dashboard extends React.Component{
     }
     //sends search query to back-end in order to retrieve movie data from imdb API
     handleSubmit(event) {
+        this.setState(state => ({
+            ...state,
+            searchLoading: true
+          })
+        )
         event.preventDefault();
-        var options = { method: 'GET', url: 'http://localhost:5001/api/movies', params: {q: this.state.value},}
+        var options = { method: 'GET', url: 'http://localhost:5001/api/movies', params: {q: this.state.value}}
             // method: 'GET',
             // url: 'https://random-data-api.com/api/hipster/random_hipster_stuff'}
             axios.request(options).then((response) => {
                 console.log(response.data);
                 this.setState({results: response.data});
                 this.setState({rando: false});
+                this.setState(state => ({
+                    ...state,
+                    searchLoading: false
+                  }));
             }).catch(function (error) {
                 this.setState({error});
                 console.error(error);
+                this.setState(state => ({
+                    ...state,
+                    searchLoading: false
+                  }));
             });
     }
     
     render(){
         //deconstructing object
-        const { error, rando, results, list, randomize , randomMovie} = this.state;
+        const { error, rando, results, list, randomize , randomMovie, listLoading, searchLoading} = this.state;
         //logic for keeping the left panel as randomizer button or search results
         var leftpanel;
         if(error){
@@ -118,11 +144,13 @@ class Dashboard extends React.Component{
         }
         else{
             leftpanel = <>
-                <h5>Click RANDOMIZER to get a random movie from your watchlist recommended</h5>
-                <div className="randomizer">
-                    <Button onClick={this.randomizeOn} style={{"width":"100%", "height":"40%"}} size="lg" variant="dark" type="submit">
-                         RANDOMIZER </Button>
-                </div>
+                <h5>Click the RANDOMIZER to get a random movie from your watchlist recommended</h5>
+                    <div className="randomizer">
+                        {listLoading ? <Spinner animation="border" /> :
+                        <Button onClick={this.randomizeOn} style={{"width":"100%", "height":"40%"}} size="lg" variant="dark" type="submit">
+                            RANDOMIZER </Button>
+                        }
+                    </div>
                 { this.state.show === false ? "" :
                     <div className="Rresults">
                         <Fade direction="down" opposite when={this.state.show}>
@@ -132,7 +160,6 @@ class Dashboard extends React.Component{
                 }
             </>
         }
-
         return(
             <div className="main">
                 <div className="leftpanel">
@@ -140,9 +167,7 @@ class Dashboard extends React.Component{
                 </div>
                 <div className="rightpanel">
                         <div className = "top">
-                            <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit">
-                                Search
-                            </Button>
+                            { searchLoading ? <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit" disabled>Search</Button> : <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit">Search</Button>}
                             <input style={{"width":"100%"}} type="text" onChange={this.handleChange} id="exampleFormControlInput1" placeholder="Search a movie title" />
                         </div>
                             <MediaList watched={this.watched} randomOn={randomize} list={list}></MediaList>
