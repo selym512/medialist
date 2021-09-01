@@ -27,6 +27,7 @@ class Dashboard extends React.Component{
         this.addToList = this.addToList.bind(this);
         this.randomizeOn = this.randomizeOn.bind(this);
         this.watched = this.watched.bind(this);
+        this.delete = this.delete.bind(this);
 
     }
     //on opening dashboard this retrieves users watchlist from back-end
@@ -71,6 +72,40 @@ class Dashboard extends React.Component{
         let replacedListValue = this.state;
         replacedListValue.list[y].watched = !replacedListValue.list[y].watched;
         this.setState(replacedListValue);
+        axios.put('http://localhost:5001/api/movies/watchlist/watched', 
+        {
+            "list": replacedListValue.list
+        },
+        {
+            mode: 'cors',
+            'withCredentials':true
+        })
+        .then(response => {console.log(response.data);})
+          .catch(error => {console.log(error)});
+    }
+    delete(y){
+        console.log( this.state.list[y]);
+        let replacedListValue = this.state;
+        let newList = [];
+        replacedListValue.list.forEach((x, z) => {
+            console.log("x: " + x + " z:" + z + " y:" + y);
+            if(z !== y){
+                newList.push(x)
+            }
+        })
+        replacedListValue.list = newList;
+        console.log("newList first value: " + newList[0].title);
+        this.setState(replacedListValue);
+        axios.put('http://localhost:5001/api/movies/watchlist/watched', 
+        {
+            "list": replacedListValue.list
+        },
+        {
+            mode: 'cors',
+            'withCredentials':true
+        })
+        .then(response => {console.log(response.data);})
+          .catch(error => {console.log(error)});
     }
     //user adds searched movie to watchlist within the UI and database
     addToList = () => {
@@ -78,7 +113,7 @@ class Dashboard extends React.Component{
             ...state,
             list: [...state.list, {
                 "title": state.results.resp1.results[0].title,
-                "watched": true,
+                "watched": false,
                 "picker" : false,
                 "description": state.results.resp2.plotSummary.text,
                 "rating": state.results.resp2.ratings.rating,
@@ -89,7 +124,7 @@ class Dashboard extends React.Component{
         axios.put('http://localhost:5001/api/movies/watchlist', 
         {
             "title": this.state.results.resp1.results[0].title,
-            "watched": true,
+            "watched": false,
             "picker" : false,
             "description": this.state.results.resp2.plotSummary.text,
             "rating": this.state.results.resp2.ratings.rating,
@@ -170,7 +205,7 @@ class Dashboard extends React.Component{
                             { searchLoading ? <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit" disabled>Search</Button> : <Button onClick={this.handleSubmit} size="sm" variant="dark" type="submit">Search</Button>}
                             <input style={{"width":"100%"}} type="text" onChange={this.handleChange} id="exampleFormControlInput1" placeholder="Search a movie title" />
                         </div>
-                            <MediaList watched={this.watched} randomOn={randomize} list={list}></MediaList>
+                            <MediaList delete={this.delete} watched={this.watched} randomOn={randomize} list={list}></MediaList>
                 </div>
             </div>
         )

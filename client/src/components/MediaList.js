@@ -16,8 +16,10 @@ export default class MediaList extends React.Component {
     }
     watched(y) {
      this.props.watched(y);
-     
     }
+    delete(y) {
+      this.props.delete(y);
+     }
 
     render() { 
       //style
@@ -58,7 +60,7 @@ export default class MediaList extends React.Component {
                   </AccordionDetails>
                   <div className="watchlistButtons">
                   <Button onClick={() =>{this.watched(y)}}>Watched</Button>
-                  <Button variant="danger">X</Button>
+                  <Button onClick={() =>{this.delete(y)}} variant="danger">X</Button>
                     
                   </div>
                 </div>
@@ -86,7 +88,7 @@ export default class MediaList extends React.Component {
                   </AccordionDetails>
                   <div className="watchlistButtons">
                   <Button onClick={() =>{this.watched(y)}}>Watched</Button>
-                  <Button variant="danger">X</Button>
+                  <Button onClick={() =>{this.delete(y)}} variant="danger">X</Button>
                     
                   </div>
                 </div>

@@ -71,5 +71,18 @@ router.put('/watchlist', async(req, res) =>{
     console.log(userdata);
     res.json(req.body);
 });
+router.put('/watchlist/watched', async(req, res) =>{
+    //pulls up ID and receives movie data for insertion
+    userdata = await Users.find({"id" : req.cookies['id']});
+    Users.findOneAndUpdate({"id" : req.cookies['id']}, {$set: {watchList: req.body.list}}, (err, doc) => {
+        if(err){
+            console.log(err);
+        }
+        console.log("doc updated = " + doc);
+    });
+    console.log(req.body.list);
+    console.log(userdata);
+    res.json(req.body);
+});
 
 module.exports = router;
