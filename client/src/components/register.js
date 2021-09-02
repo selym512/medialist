@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import React, {useState} from 'react';
-// import Cookie from 'react-native-cookie';
+import Cookies from 'js-cookie';
 
 
 
@@ -19,6 +19,11 @@ const Register = () => {
     }
     const pass = function (e){
         setPassword(e.target.value);
+    }
+    const logout = function(){
+      Cookies.remove('jwt');
+      Cookies.remove('id');
+      window.location.assign('/register');
     }
     const submit = async function (){
         console.log("email: ", email, " password: ", password);
@@ -51,22 +56,36 @@ const Register = () => {
 
   return (
     <>
-    <h3>Create an account!</h3>
-    <Form onSubmit={(e) => {submit(); e.preventDefault();}}>
-        <p className="red">{error}</p>
-        <Form.Group className="mb-3" id="email" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <input type="email" value={email} onChange={(e) => user(e)} id="exampleFormControlInput1" placeholder="name@example.com" />
-        </Form.Group>
+      { Cookies.get("jwt") ? 
+        <>
+        <div className="center">
+          <h5>You are logged in already, would you like to logout?</h5>
+          <Button onClick={logout}>logout</Button>
+        </div>
+        </>
+      : 
+        <>
+          <div className="center">
+          <h3>Create an account!</h3>
+          <h5>You are not logged in, you need to log in or register</h5>
+          <Form onSubmit={(e) => {submit(); e.preventDefault();}}>
+              <p className="red">{error}</p>
+              <Form.Group className="mb-3" id="email" controlId="formBasicEmail">
+                  <Form.Label>Email address </Form.Label>
+                  <input type="email" value={email} onChange={(e) => user(e)} id="exampleFormControlInput1" placeholder="name@example.com" />
+              </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <input type="password" value={password} onChange={(e) => pass(e)} id="exampleFormControlInput1" placeholder="Password" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-            Register
-        </Button>
-    </Form>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Password </Form.Label>
+                  <input type="password" value={password} onChange={(e) => pass(e)} id="exampleFormControlInput1" placeholder="Password" />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                  Register
+              </Button>
+          </Form>
+          </div>
+        </>
+      }
     </>
   )
 };

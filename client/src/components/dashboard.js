@@ -4,7 +4,7 @@ import Spinner from "react-bootstrap/esm/Spinner";
 import React from "react";
 import axios from "axios";
 import MediaCard from "./card";
-import { Fade } from "react-awesome-reveal";
+import { Bounce } from "react-awesome-reveal";
 
 class Dashboard extends React.Component{
     constructor(){
@@ -55,7 +55,6 @@ class Dashboard extends React.Component{
     }
     //grabs a random movie from watchlist
     randomizeOn(){
-        console.log(this.state.list[Math.floor(Math.random() * this.state.list.length)].title)
         var randomListOption = [];
         this.state.list.forEach((element, x) => {
             if (element.watched === false) randomListOption.push(x);
@@ -84,7 +83,6 @@ class Dashboard extends React.Component{
           .catch(error => {console.log(error)});
     }
     delete(y){
-        console.log( this.state.list[y]);
         let replacedListValue = this.state;
         let newList = [];
         replacedListValue.list.forEach((x, z) => {
@@ -94,7 +92,6 @@ class Dashboard extends React.Component{
             }
         })
         replacedListValue.list = newList;
-        console.log("newList first value: " + newList[0].title);
         this.setState(replacedListValue);
         axios.put('http://localhost:5001/api/movies/watchlist/watched', 
         {
@@ -188,9 +185,9 @@ class Dashboard extends React.Component{
                     </div>
                 { this.state.show === false ? "" :
                     <div className="Rresults">
-                        <Fade direction="down" opposite when={this.state.show}>
+                        <Bounce>
                         <h4>{randomMovie}</h4>
-                        </Fade>
+                        </Bounce>
                     </div>
                 }
             </>

@@ -4,6 +4,7 @@ import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './components/dashboard';
 import Header from './components/navbars/header';
+import Cookies from 'js-cookie';
 
 import {
   BrowserRouter as Router,
@@ -31,7 +32,8 @@ function App() {
           <Register />
         </Route>
         <Route path="/">
-         <Dashboard/>
+          {Cookies.get("jwt") ?  <Dashboard/> : <Login />}
+        
         </Route>
       </Switch>
   </Router>

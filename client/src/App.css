@@ -18,12 +18,18 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding-left: 2mm;
 }
-
+.navlogin{
+  align-items: right;
+  padding-left: 2mm;
+  justify-content: right;
+}
+.center{
+  text-align: center;
+}
 .App-link {
   color: #61dafb;
 }
@@ -36,23 +42,8 @@
     transform: rotate(360deg);
   }
 }
-.top {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 2mm;
-  margin-bottom: 2mm;
 
-}
-.leftpanel{
-  float:left;
-  width:40%;
-  margin-left: 2mm;
-  margin-right: 2mm;
-  margin-top: 2mm;
-  text-align: center;
 
-}
 .Rresults{
   text-align: center;
   background-color: darksalmon;
@@ -61,23 +52,60 @@
   padding-top: .5mm;
   padding-bottom: .5mm;
 }
-.randomizer{
-  height: auto;
-  padding-top: 14mm;
-  /* padding-bottom: 2mm; */
-  margin-left: 14%;
-  margin-right: 14%;
-}
-.rightpanel{
-  float:right;
-  width:60%;
-  margin-left: auto;
-  margin-right: 2mm;
 
+@media (max-width: 900px) {
+  .leftpanel{
+    text-align: center;
+    padding-bottom: 8mm;
+  }
+  .randomizer{
+    height: auto;
+    padding-top: 4mm;
+    /* padding-bottom: 2mm; */
+    margin-left: 14%;
+    margin-right: 14%;
+  }
+  .top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 2mm;  
+  }
 }
-.main{
-  display: flex;
+
+@media (min-width: 901px) {
+  .rightpanel{
+    float:right;
+    width:60%;
+    margin-left: auto;
+    margin-right: 2mm;
+  }
+  .leftpanel{
+    float:left;
+    width:40%;
+    margin-left: 2mm;
+    margin-right: 2mm;
+    margin-top: 2mm;
+    text-align: center;
+  }
+  .main{
+    display: flex;
+  }
+  .randomizer{
+    height: auto;
+    padding-top: 14mm;
+    /* padding-bottom: 2mm; */
+    margin-left: 14%;
+    margin-right: 14%;
+  }
+  .top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 2mm;
+  }
 }
+
 .watchlistButtons{
   float: right;
   padding-bottom: 1mm;
