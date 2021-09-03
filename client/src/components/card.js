@@ -12,15 +12,15 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
   root: {
     // width: 800,
-    maxWidth: 400,
+    maxWidth: '80%',
     margin: 'auto',
-    marginBottom: 40
+    marginBottom: 40,
   },
   media: {
-    // maxHeight: 400,
-    height: 0,
+    backgroundSize: 'contain',
+    height: '100%',
     // width:'100%',
-    paddingTop: '100%'
+    paddingTop: '100%',
   },
 });
   
@@ -34,18 +34,18 @@ export default function MediaCard(props) {
         <CardMedia
           className={classes.media}
           image={props.result.resp1.results[0].image.url ?? ''}
-          title={props.result.resp1.results[0].title ?? ''}
+          title={props.result.resp1.results[0].title}
           height="1500"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-          {props.result.resp1.results[0].title ?? ''}
+          {props.result.resp1.results[0].title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             <b>Rating: {props.result.resp2.ratings.rating ?? ''}</b>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.result.resp2.plotSummary.text ?? ''}
+            {(props.result.resp2.plotSummary ?? '').text}
           </Typography>
         </CardContent>
       </CardActionArea>

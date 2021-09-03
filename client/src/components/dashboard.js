@@ -109,10 +109,10 @@ class Dashboard extends React.Component{
         this.setState(state => ({
             ...state,
             list: [...state.list, {
-                "title": state.results.resp1.results[0].title,
+                "title": (this.state.results.resp1.results[0].title ?? this.state.value),
                 "watched": false,
                 "picker" : false,
-                "description": state.results.resp2.plotSummary.text,
+                "description": (state.results.resp2.plotSummary ?? '').text,
                 "rating": state.results.resp2.ratings.rating,
                 "image": state.results.resp1.results[0].image.url
                 }]
@@ -120,10 +120,10 @@ class Dashboard extends React.Component{
         this.openRando();
         axios.put('http://localhost:5001/api/movies/watchlist', 
         {
-            "title": this.state.results.resp1.results[0].title,
+            "title": (this.state.results.resp1.results[0].title ?? this.state.value),
             "watched": false,
             "picker" : false,
-            "description": this.state.results.resp2.plotSummary.text,
+            "description": (this.state.results.resp2.plotSummary ?? '').text,
             "rating": this.state.results.resp2.ratings.rating,
             "image": this.state.results.resp1.results[0].image.url
             }, 

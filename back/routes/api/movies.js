@@ -27,10 +27,19 @@ router.get('/', async (req, res) => {
         }
         };
         axios.request(options).then(function (response) {
-            console.log(response.data);
             resp1 = response.data;
-            var id = response.data.results[0].id;
-            id = v.slice(id ,7,-1);
+            var id = "";
+            response.data.results.forEach(element => {
+                if(id){return;}
+                console.log("element spliced up is: " + v.slice(element.id,1,6));
+                if(v.slice(element.id,1,6) !== "title"){
+                    return;
+                }
+                id = v.slice(element.id ,7,-1);
+                console.log("successful element spliced up is: " + element.id);
+                return;
+            });
+            
 
             var options2 = {
             method: 'GET',
@@ -41,7 +50,6 @@ router.get('/', async (req, res) => {
                 'x-rapidapi-key': 'e189eada59msh18cccafd3836b61p105e92jsn88a874a790a5'
             }};
             axios.request(options2).then(function (response2) {
-                console.log(response2.data);
                 resp2 = response2.data;
                 res.json({resp1,resp2});
             }).catch(function (error2) {
