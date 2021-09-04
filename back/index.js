@@ -11,13 +11,13 @@ const cookieParser = require('cookie-parser');
 // const uri = "mongodb+srv://milk:c4kaeS1xWjCkeQet@cluster0.wteq6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 // const client = new MongoClient(uri);
-
-
-
-
 const app = express();
 
 app.use(logger);
+
+const PORT = process.env.PORT || 5001;
+
+
 
 let allowCrossDomain = function(req, res, next) {
     // res.header('Access-Control-Allow-Origin', "http://localhost:3000");
@@ -39,8 +39,12 @@ app.use('/api/members', require('./routes/api/members'));
 app.use('/api/login', require('./routes/api/login'));
 app.use('/api/movies', require('./routes/api/movies'));
 
-
-const PORT = 5001;
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client', 'build')));
+    app.get('/*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'));
+    })
+  }
 
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
