@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "homepage": "/currentBuild/",
   "private": true,
   "dependencies": {
     "@fontsource/roboto": "^4.5.0",
