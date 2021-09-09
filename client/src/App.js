@@ -18,9 +18,10 @@ import {
 function App() {
   return (
 
-    
+    <div className="wholesite">
     <Router>
     <Header/>
+    
       <Switch>
         <Route path="/about">
           <About />
@@ -37,6 +38,8 @@ function App() {
         </Route>
       </Switch>
   </Router>
+  </div>
+
 
 
 

@@ -16,16 +16,18 @@
 .App-header {
   background-color: #1e4594;
   min-height: 100vh;
-  display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   color: white;
   padding-left: 2mm;
 }
+.navbar-expand{
+  justify-content: unset;
+}
 .navlogin{
-  align-items: right;
+  /* align-items: right; */
   padding-left: 2mm;
-  justify-content: right;
+  /* justify-content: right; */
 }
 .center{
   text-align: center;
@@ -112,3 +114,51 @@
   padding-right: 1mm;
 }
 
+.wholesite{
+  background-color: rgb(136, 61, 61);
+  height: 100%;
+  width: 100%;
+}
+.navlogin{
+  background-color: rgb(118, 13, 13);
+  border-color: rgb(0, 0, 0);
+  border-bottom-style: dotted;
+  border-width: .5px;
+}
+.btn-dark{
+  background-color: rgb(118, 13, 13);
+}
+.logo{
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+}
+.gap{
+  width: 100%;
+}
+.navItems{
+  display: flex;
+  justify-content: flex-end;
+}
+.navbar-light .navbar-brand{
+  color: white;
+}
+.navbar-light .navbar-nav .nav-link{
+  color:white;
+}
+body{
+  color:white;
+}
+.btn-sample:active {
+  color: rgb(118, 13, 13);
+}
+.btn-dark:focus {
+  color: white;
+  background-color: rgb(118, 13, 13);
+  border-color: rgb(118, 13, 13);
+}
+.btn-dark.disabled{
+  color: white;
+  background-color: rgb(118, 13, 13);
+  border-color: rgb(118, 13, 13);
+}
