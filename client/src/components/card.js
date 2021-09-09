@@ -33,7 +33,7 @@ export default function MediaCard(props) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={props.result.resp1.results[0].image.url ?? ''}
+          image={props.result.resp1.results[0]?.image?.url ?? ''}
           title={props.result.resp1.results[0].title}
           height="1500"
         />

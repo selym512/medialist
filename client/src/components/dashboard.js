@@ -179,7 +179,7 @@ class Dashboard extends React.Component{
                 <h5>Click the RANDOMIZER to get a random movie from your watchlist recommended</h5>
                     <div className="randomizer">
                         {listLoading ? <Spinner animation="border" /> :
-                        <Button onClick={this.randomizeOn} style={{"width":"100%", "height":"40%"}} size="lg" variant="dark" type="submit">
+                        <Button onClick={this.randomizeOn } style={{"width":"100%", "height":"40%"}} size="lg" variant="dark">
                             RANDOMIZER </Button>
                         }
                     </div>

@@ -42,7 +42,6 @@ export default class MediaList extends React.Component {
           watchedArray.push(
             <Accordion key={increment} >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
