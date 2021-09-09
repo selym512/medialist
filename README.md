@@ -1,5 +1,6 @@
 # Media-List
-A site for tracking what movies you've seen and plan on watching
+A site for tracking what movies you've seen and plan on watching.
+Can be found (here.)[http://18.117.173.166]
 
 ## Features
 
