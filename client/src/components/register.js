@@ -28,7 +28,7 @@ const Register = () => {
     const submit = async function (){
         console.log("email: ", email, " password: ", password);
           console.log('registering account!!!!!!!!');
-          fetch('http://localhost:5001/api/members', {
+          fetch('/api/members', {
             mode: 'cors',
             credentials: 'include',
             method: 'POST',

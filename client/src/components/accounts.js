@@ -7,7 +7,7 @@ const Accounts = () => {
     const [accs, setAccs] = useState([]);
     useEffect(() => {
       console.log('fetching!!!!!!!!');
-      fetch('http://172.17.158.213:5001/api/members')
+      fetch('/api/members')
       .then(res => res.json())
       .then(blah => {
           console.log('fetched', blah)

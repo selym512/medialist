@@ -28,7 +28,7 @@ const Login = () => {
     const submit = async function (){
         console.log("user: ", userName, " password: ", password);
           console.log('loggin in!!!!!!!!');
-          fetch('http://localhost:5001/api/login', {
+          fetch('/api/login', {
             mode: 'cors',
             credentials: 'include',
             method: 'POST',

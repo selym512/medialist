@@ -32,7 +32,7 @@ class Dashboard extends React.Component{
     }
     //on opening dashboard this retrieves users watchlist from back-end
     componentDidMount(){
-            axios.get('http://localhost:5001/api/movies/watchlist',{ mode: 'cors', 'withCredentials':true })
+            axios.get('/api/movies/watchlist',{ mode: 'cors', 'withCredentials':true })
             .then(response => {
               this.setState(state => ({
                 ...state,
@@ -71,7 +71,7 @@ class Dashboard extends React.Component{
         let replacedListValue = this.state;
         replacedListValue.list[y].watched = !replacedListValue.list[y].watched;
         this.setState(replacedListValue);
-        axios.put('http://localhost:5001/api/movies/watchlist/watched', 
+        axios.put('/api/movies/watchlist/watched', 
         {
             "list": replacedListValue.list
         },
@@ -93,7 +93,7 @@ class Dashboard extends React.Component{
         })
         replacedListValue.list = newList;
         this.setState(replacedListValue);
-        axios.put('http://localhost:5001/api/movies/watchlist/watched', 
+        axios.put('/api/movies/watchlist/watched', 
         {
             "list": replacedListValue.list
         },
@@ -118,7 +118,7 @@ class Dashboard extends React.Component{
                 }]
         }));
         this.openRando();
-        axios.put('http://localhost:5001/api/movies/watchlist', 
+        axios.put('/api/movies/watchlist', 
         {
             "title": (this.state.results.resp1.results[0].title ?? this.state.value),
             "watched": false,
@@ -142,7 +142,7 @@ class Dashboard extends React.Component{
           })
         )
         event.preventDefault();
-        var options = { method: 'GET', url: 'http://localhost:5001/api/movies', params: {q: this.state.value}}
+        var options = { method: 'GET', url: '/api/movies', params: {q: this.state.value}}
             // method: 'GET',
             // url: 'https://random-data-api.com/api/hipster/random_hipster_stuff'}
             axios.request(options).then((response) => {
