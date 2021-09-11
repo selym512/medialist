@@ -27,7 +27,7 @@ let allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 
-app.use(cors({credentials: true, origin: "http://localhost:3000"}));
+app.use(cors({credentials: true, origin: "http://18.117.173.166/"}));
 app.use(cookieParser());
 
 

@@ -30,10 +30,10 @@ const Login = () => {
           console.log('loggin in!!!!!!!!');
           fetch('/api/login', {
             mode: 'cors',
-            credentials: 'include',
+            credentials: 'same-origin',
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               email : userName, 
