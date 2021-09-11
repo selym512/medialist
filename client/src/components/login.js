@@ -42,6 +42,8 @@ const Login = () => {
           .then(res => res.json())
           .then(blah => {
               if(blah.msg === "logged in"){
+                console.log(blah.msg);
+                console.log(blah.Cookies);
                 window.location.assign('/');
               }
               else{
@@ -74,12 +76,12 @@ const Login = () => {
           <p>{login}</p>
           <Form.Group className="mb-3" id="email" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <input type="email" value={userName} onChange={(e) => user(e)} id="exampleFormControlInput1" placeholder="name@example.com" />
+              <input type="email" value={userName} onChange={(e) => user(e)} id="emailInput" placeholder="name@example.com" />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <input type="password" value={password} onChange={(e) => pass(e)} id="exampleFormControlInput1" placeholder="Password" />
+              <input type="password" value={password} onChange={(e) => pass(e)} id="passwordInput" placeholder="Password" />
           </Form.Group>
           <Button variant="primary" type="submit">
               Login
