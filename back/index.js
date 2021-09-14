@@ -19,13 +19,13 @@ const PORT = process.env.PORT || 5001;
 
 
 
-let allowCrossDomain = function(req, res, next) {
+// let allowCrossDomain = function(req, res, next) {
     // res.header('Access-Control-Allow-Origin', "http://localhost:3000");
     // res.header('Access-Control-Allow-Credentials', "true");
-    next();
-};
+    // next();
+// };
 
-app.use(allowCrossDomain);
+// app.use(allowCrossDomain);
 
 app.use(cors({credentials: true, origin: "http://18.117.173.166/"}));
 app.use(cookieParser());
