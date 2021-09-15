@@ -9,9 +9,14 @@ const helmet = require("helmet");
 
 
 const options = {
-  key: fs.readFileSync("/srv/www/keys/my-site-key.pem"),
-  cert: fs.readFileSync("/srv/www/keys/chain.pem")
+  key: fs.readFileSync("/etc/letsencrypt/live/www.medialist.icu/privkey.pem"),
+  cert: fs.readFileSync("/etc/letsencrypt/live/www.medialist.icu/fullchain.pem")
 };
+
+// Successfully received certificate.
+// Certificate is saved at: /etc/letsencrypt/live/www.medialist.icu/fullchain.pem
+// Key is saved at:         /etc/letsencrypt/live/www.medialist.icu/privkey.pem
+// This certificate expires on 2021-12-14.
 
 const app = express();
 app.use(helmet());
