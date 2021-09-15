@@ -32,8 +32,8 @@ router.post('/', async (req, res) => {
         console.log("DO THEY MATCH?: " + match);
         if(match){
             const token = createToken(query.id);
-            res.cookie('jwt', token, { maxAge: maxAge * 3000, sameSite:'strict'});
-            res.cookie('id', query.id, { maxAge: maxAge * 3000, sameSite:'strict'});
+            res.cookie('jwt', token, { maxAge: maxAge * 3000, sameSite:'none', secure=true});
+            res.cookie('id', query.id, { maxAge: maxAge * 3000, sameSite:'none', secure=true});
             res.json({msg: "logged in"});
         }
         else{
