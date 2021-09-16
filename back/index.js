@@ -19,7 +19,7 @@ const options = {
 // This certificate expires on 2021-12-14.
 
 const app = express();
-app.use(helmet());
+app.use(helmet({contentSecurityPolicy: false,}));
 
 app.use(logger);
 
