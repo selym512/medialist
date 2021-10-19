@@ -9,7 +9,7 @@ const maxAge = 3* 24 * 60 * 60;
 
 //jwt create token
 const createToken = (id) => {
-    return jwt.sign({id}, 'its a secret to everyone', {
+    return jwt.sign({id}, /*secret*/, {
         expiresIn: maxAge
     });
 }
