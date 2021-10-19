@@ -5,7 +5,7 @@ const Users = require('../../models/Users');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-const uri = "mongodb+srv://milk:c4kaeS1xWjCkeQet@cluster0.wteq6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
 
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('connected to DB!'));
 
